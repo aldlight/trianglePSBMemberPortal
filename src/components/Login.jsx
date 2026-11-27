@@ -31,7 +31,7 @@ const Login = ({ setLoggedInUser }) => {
             }
             const { token } = await res.json();
             setToken(token);
-            navigate("/events");
+            navigate("/dashboard");
         } catch (err) {
             console.error(err.response.data);
             // Set error message

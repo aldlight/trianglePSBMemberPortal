@@ -9,6 +9,7 @@ import Event from "./components/Event";
 import EventList from "./components/EventList";
 import Login from "./components/Login"
 import RegisterUser from "./components/RegisterUser"
+import Dashboard from "./components/DashBoard";
 import "./index.css";
 
 // Auths
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       {
         element: <RequireAuth />,
         children: [
+          { path: "/dashboard", element: <Dashboard /> },
           { path: "/events", element: <EventList /> },
           { path: "/events/create", element: <Event /> },
           { path: "/events/edit/:id", element: <Event /> },
