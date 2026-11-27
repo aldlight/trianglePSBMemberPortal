@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 // Import file uploading component
 import FileUpload from "./FileUpload";
 
+import { authFetch } from "../auth";
+
 export default function Event() {
   const [form, setForm] = useState({
     name: "",
@@ -20,8 +22,8 @@ export default function Event() {
     async function fetchData() {
       const id = params.id?.toString() || undefined;
       if(!id) return;
-      const response = await fetch(
-        `http://localhost:5050/event/${params.id.toString()}`
+      const response = await authFetch(
+        `/event/${params.id.toString()}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -62,7 +64,7 @@ export default function Event() {
     }
     try {
       // if the id is present, we will set the URL to /event/:id, otherwise we will set the URL to /event.
-      const response = await fetch(`http://localhost:5050/event${params.id ? "/"+params.id : ""}`, {
+      const response = await authFetch(`/event${params.id ? "/"+params.id : ""}`, {
         // if the id is present, we will use the PATCH method, otherwise we will use the POST method.
         method: `${params.id ? "PATCH" : "POST"}`,
         body: data,

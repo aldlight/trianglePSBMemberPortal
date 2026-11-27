@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { authFetch } from "../auth";
+
 const Event = (props) => (
   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
@@ -56,12 +58,17 @@ export default function DisplayEvents() {
 
   // This method will delete a event
   async function deleteEvent(id) {
-    await fetch(`http://localhost:5050/event/${id}`, {
+    const res = await authFetch(`/event/${id}`, {
       method: "DELETE",
     });
+    if (!res.ok) {
+      setMessage("Failed to delete event");
+      return;
+    }
     const newevents = events.filter((el) => el._id !== id);
     setEvents(newevents);
-  }
+    navigate("/events");
+    }
 
   // This method will map out the events on the table
   function displayEvents() {

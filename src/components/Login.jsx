@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_URL, setToken } from "../auth";
+
+import { authFetch } from "../auth";
 
 const Login = ({ setLoggedInUser }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -10,26 +14,23 @@ const Login = ({ setLoggedInUser }) => {
 
     const { username, password } = formData;
 
-    const onChange = e => setFormData({ ...formData, 
-                                      [e.target.name]: e.target.value });
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
         try {
             const res = await fetch(`http://localhost:5050/auth/login`, {
-                // if the id is present, we will use the PATCH method, otherwise we will use the POST method.
                 method: `POST`,
-                headers: {
-                'Content-Type': 'application/json' // Tell server to expect JSON
-            },
+                headers: { 'Content-Type': 'application/json'}, // Tell server to expect JSON
                 body: JSON.stringify(formData)
                 });
-            
-            localStorage.setItem('token', res.data.token);
-            setLoggedInUser(username);
-            
-            // Set success message
-            setMessage('Logged in successfully');
+            if (!res.ok) {
+                setMessage("Failed to login - wrong credentials");
+                return;
+            }
+            const { token } = await res.json();
+            setToken(token);
+            navigate("/events");
         } catch (err) {
             console.error(err.response.data);
             // Set error message

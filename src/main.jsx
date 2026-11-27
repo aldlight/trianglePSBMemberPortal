@@ -11,54 +11,22 @@ import Login from "./components/Login"
 import RegisterUser from "./components/RegisterUser"
 import "./index.css";
 
+// Auths
+import RequireAuth from "./components/RequireAuth";
+
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     children: [
+      { path: "/", element: <Login /> },
       {
-        path: "/",
-        element: <Login />,
-      },
-    ],
-  },
-  {
-    path: "/register",
-    element: <App />,
-    children: [
-      {
-        path: "/register",
-        element: <RegisterUser />,
-      },
-    ],
-  },
-  {
-    path: "/events",
-    element: <App />,
-    children: [
-      {
-        path: "/events",
-        element: <EventList />,
-      },
-    ],
-  },
-  {
-    path: "/events/edit/:id",
-    element: <App />,
-    children: [
-      {
-        path: "/events/edit/:id",
-        element: <Event />,
-      },
-    ],
-  },
-  {
-    path: "/events/create",
-    element: <App />,
-    children: [
-      {
-        path: "/events/create",
-        element: <Event />,
+        element: <RequireAuth />,
+        children: [
+          { path: "/events", element: <EventList /> },
+          { path: "/events/create", element: <Event /> },
+          { path: "/events/edit/:id", element: <Event /> },
+          { path: "/register", element: <RegisterUser /> },
+        ],
       },
     ],
   },

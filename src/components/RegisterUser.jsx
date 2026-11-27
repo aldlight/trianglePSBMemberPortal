@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import { authFetch } from "../auth";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ const Register = () => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await fetch(`http://localhost:5050/auth/register`, {
+            const res = await authFetch("/auth/register", {
                 // if the id is present, we will use the PATCH method, otherwise we will use the POST method.
                 method: `POST`,
                 headers: {
