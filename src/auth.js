@@ -1,4 +1,5 @@
-export const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5050";
+// API set in .env
+export const API_URL = import.meta.env.PSBTRIANGLE_API_URL;
 
 export const getToken = () => localStorage.getItem("token");
 export const setToken = (t) => localStorage.setItem("token", t);
