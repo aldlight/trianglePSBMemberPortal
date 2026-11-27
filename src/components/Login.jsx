@@ -19,13 +19,14 @@ const Login = ({ setLoggedInUser }) => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await fetch(`http://localhost:5050/auth/login`, {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: `POST`,
                 headers: { 'Content-Type': 'application/json'}, // Tell server to expect JSON
                 body: JSON.stringify(formData)
                 });
+            // TODO: Meaningful error handling, I.E. separation between credentials and server error.
             if (!res.ok) {
-                setMessage("Failed to login - wrong credentials");
+                setMessage("Failed to login - wrong credentials or server error");
                 return;
             }
             const { token } = await res.json();
@@ -34,7 +35,7 @@ const Login = ({ setLoggedInUser }) => {
         } catch (err) {
             console.error(err.response.data);
             // Set error message
-            setMessage('Failed to login - wrong credentials');         
+            setMessage('Error encountered logging in, contact WebMaster if this persists');         
         }
     };
 
